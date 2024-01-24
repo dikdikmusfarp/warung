@@ -37,7 +37,7 @@ class TransactionController extends ApiBaseController
                     $transaction->save();
                     foreach ($products as $key => $value) {
                         //check stock
-                        $check = Product::select('stock')->where('id', $value['product_id'])->first();
+                        $check = Product::find($value['product_id']);;
                         if ($check['stock']>$value['amount']) {
                             // new sale detail
                             $detail = new SaleDetail();
@@ -53,13 +53,16 @@ class TransactionController extends ApiBaseController
                             // delete cart
                             $cart = Cart::find($value['id']);
                             $cart->delete();
+                            // reducing stock
+                            $check->stock -= $detail->amount;
+                            $check->save();
                         } else {
                             DB::rollBack();
                             throw new \Exception("stock reduced or sold, 403");
                         }
                     }
                 } else {
-                    throw new \Exception("error, 403");
+                    throw new \Exception("no item on shoping cart, 403");
                 }
                 DB::commit();
                 return $this->sendResponse($transaction, 'successfully made a bill');
