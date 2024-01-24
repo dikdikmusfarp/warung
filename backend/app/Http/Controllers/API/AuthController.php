@@ -23,7 +23,7 @@ class AuthController extends Controller
             if ($request->name) {
                 DB::beginTransaction();
                 $model = new User();
-                $model->name = $request->name; // Membuat huruf awal pada kata menjadi kapital
+                $model->name = ucwords($request->name); // Membuat huruf awal pada kata menjadi kapital
                 $model->email = $request->email;
                 $model->password = Hash::make($request->password);
                 $model->role_id = 2;
