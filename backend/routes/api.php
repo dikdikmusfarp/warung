@@ -39,11 +39,9 @@ Route::middleware('auth:sanctum')->group(function () {
             $api->delete('/{id}', ['as' => '.delete', 'uses' => 'CartController@delete']);
         });
         Route::group(['prefix' => 'transaction', 'as' => '.transaction'], function ($api) {
-            // $api->get('/', ['as' => '.index', 'uses' => 'ProductController@index']);
+            $api->get('/', ['as' => '.index', 'uses' => 'TransactionController@index']);
             $api->post('/', ['as' => '.store', 'uses' => 'TransactionController@store']);
-            // $api->get('/show', ['as' => '.show', 'uses' => 'CartController@show']);
-            // $api->post('/{id}', ['as' => '.update', 'uses' => 'CartController@update']);
-            // $api->delete('/{id}', ['as' => '.delete', 'uses' => 'CartController@delete']);
+            $api->get('/{id}', ['as' => '.show', 'uses' => 'TransactionController@show']);
         });
     });
 });

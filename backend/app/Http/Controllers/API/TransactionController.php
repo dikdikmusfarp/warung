@@ -14,6 +14,25 @@ use Illuminate\Support\Facades\DB;
 
 class TransactionController extends ApiBaseController
 {
+    public function index(Request $request)
+    {
+        $attributes = $request->all();
+        if (Auth::user()->role_id) {
+            $data = Sale::filterQuery($attributes)
+                ->paginate(
+                    isset($attributes['perPage']) ? $attributes['perPage'] : 10,
+                    ['*'],
+                    'page',
+                    isset($attributes['page']) ? $attributes['page'] : 1
+                );
+            try {
+                return $this->sendResponse($data, 'List product');
+            } catch (\Exception $e) {
+                return $this->sendError($e->getMessage());
+            }
+        }
+    }
+
     public function store(Request $request)
     {
         try {
@@ -25,10 +44,10 @@ class TransactionController extends ApiBaseController
                     'carts.amount',
                     'products.name',
                     'products.price',
-                    )
-                ->leftJoin('products', function ($join) {
-                    $join->on('products.id', '=', 'carts.product_id');
-                })->where('user_id', Auth::user()->id)->get();
+                )
+                    ->leftJoin('products', function ($join) {
+                        $join->on('products.id', '=', 'carts.product_id');
+                    })->where('user_id', Auth::user()->id)->get();
                 // dd($products);
                 DB::beginTransaction();
                 if ($products) {
@@ -38,7 +57,7 @@ class TransactionController extends ApiBaseController
                     foreach ($products as $key => $value) {
                         //check stock
                         $check = Product::find($value['product_id']);;
-                        if ($check['stock']>$value['amount']) {
+                        if ($check['stock'] > $value['amount']) {
                             // new sale detail
                             $detail = new SaleDetail();
                             $detail->sale_id = $transaction->id;
@@ -69,6 +88,31 @@ class TransactionController extends ApiBaseController
             } else {
                 throw new \Exception("Access denied, 403");
             }
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return $this->sendError($e->getMessage());
+        }
+    }
+
+    public function show($id)
+    {
+        try {
+            $sale = Sale::find($id);
+            $detail = SaleDetail::select(
+                'sale_details.id',
+                'sale_details.amount',
+                'sale_details.price_at',
+                'products.name',
+            )
+                ->leftJoin('products', function ($join) {
+                    $join->on('products.id', '=', 'sale_details.product_id');
+                })
+                ->where('sale_details.sale_id', $id)->get();
+            $data = [
+                'sale' => $sale,
+                'detail' => $detail,
+            ];
+            return $this->sendResponse($data, 'cart detail');
         } catch (\Exception $e) {
             DB::rollBack();
             return $this->sendError($e->getMessage());
