@@ -28,8 +28,18 @@ class Role extends Model
         return Role::where('slug', 'admin')->first();
     }
 
+    public static function getCustomerRole()
+    {
+        return Role::where('slug', 'customer')->first();
+    }
+
     public static function getAdminRoleId()
     {
         return self::getAdminRole() ? self::getAdminRole()->id : null;
+    }
+
+    public static function getCustomerRoleId()
+    {
+        return self::getCustomerRole() ? self::getCustomerRole()->id : null;
     }
 }

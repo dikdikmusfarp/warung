@@ -31,5 +31,19 @@ Route::middleware('auth:sanctum')->group(function () {
             $api->post('/{id}', ['as' => '.update', 'uses' => 'ProductController@update']);
             $api->delete('/{id}', ['as' => '.delete', 'uses' => 'ProductController@delete']);
         });
+        Route::group(['prefix' => 'cart', 'as' => '.cart'], function ($api) {
+            // $api->get('/', ['as' => '.index', 'uses' => 'ProductController@index']);
+            $api->post('/', ['as' => '.store', 'uses' => 'CartController@store']);
+            $api->get('/show', ['as' => '.show', 'uses' => 'CartController@show']);
+            $api->post('/{id}', ['as' => '.update', 'uses' => 'CartController@update']);
+            $api->delete('/{id}', ['as' => '.delete', 'uses' => 'CartController@delete']);
+        });
+        Route::group(['prefix' => 'transaction', 'as' => '.transaction'], function ($api) {
+            // $api->get('/', ['as' => '.index', 'uses' => 'ProductController@index']);
+            $api->post('/', ['as' => '.store', 'uses' => 'TransactionController@store']);
+            // $api->get('/show', ['as' => '.show', 'uses' => 'CartController@show']);
+            // $api->post('/{id}', ['as' => '.update', 'uses' => 'CartController@update']);
+            // $api->delete('/{id}', ['as' => '.delete', 'uses' => 'CartController@delete']);
+        });
     });
 });
