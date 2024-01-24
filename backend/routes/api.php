@@ -23,4 +23,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [\App\Http\Controllers\Api\AuthController::class, 'logout']);
+    Route::group(['namespace' => 'App\Http\Controllers\API', 'as' => 'api'], function ($api) {
+        Route::group(['prefix' => 'product', 'as' => '.product'], function ($api) {
+            $api->get('/', ['as' => '.index', 'uses' => 'ProductController@index']);
+            $api->post('/', ['as' => '.store', 'uses' => 'ProductController@store']);
+            $api->get('/{id}', ['as' => '.show', 'uses' => 'ProductController@show']);
+            $api->post('/{id}', ['as' => '.update', 'uses' => 'ProductController@update']);
+            $api->delete('/{id}', ['as' => '.delete', 'uses' => 'ProductController@delete']);
+        });
+    });
 });
