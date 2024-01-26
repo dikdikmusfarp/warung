@@ -97,7 +97,17 @@ class TransactionController extends ApiBaseController
     public function show($id)
     {
         try {
-            $sale = Sale::find($id);
+            $sale = Sale::select(
+                'sales.id',
+                'sales.total',
+                'users.name',
+                'sales.created_at as waktu'
+            )
+                ->leftJoin('users', function ($join) {
+                    $join->on('users.id', '=', 'sales.user_id');
+                })
+                ->where('sales.id', $id)
+                ->first();
             $detail = SaleDetail::select(
                 'sale_details.id',
                 'sale_details.amount',
@@ -108,6 +118,9 @@ class TransactionController extends ApiBaseController
                     $join->on('products.id', '=', 'sale_details.product_id');
                 })
                 ->where('sale_details.sale_id', $id)->get();
+            foreach ($detail as $key => $value) {
+                $detail[$key]['total'] = $value['amount'] * $value['price_at'];
+            }
             $data = [
                 'sale' => $sale,
                 'detail' => $detail,

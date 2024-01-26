@@ -55,7 +55,7 @@ class Sale extends Model
             } else {
                 $orderName = 'sales.id';
             }
-            return self::select('*')->orderByRaw($orderName . " " . $orderDorection . " NULLS LAST");
+            return self::select('*')->where('user_id',Auth::user()->id)->orderByRaw($orderName . " " . $orderDorection . " NULLS LAST");
         }
     }
 }

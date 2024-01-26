@@ -42,7 +42,7 @@
               </div>
           </div>
         </div>
-        <div class="row text-center pt-4 pb-4">
+        <div class="col-xl-12 text-center pt-4 pb-4">
           <b-button variant="primary" class="w-md" type="submit"><i class="uil uil-save mx-1"></i>Simpan</b-button>
         </div>
       </form>
