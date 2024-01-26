@@ -1,0 +1,69 @@
+<!-- Please remove this file from your project -->
+<template>
+  <body id="page-top">
+
+<!-- Page Wrapper -->
+<div id="wrapper">
+    <sidebar></sidebar>
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <topbar></topbar>
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+
+                <!-- Page Heading -->
+                <nuxt />
+
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+        <!-- End of Main Content -->
+
+        <!-- Footer -->
+        <footer class="sticky-footer bg-white">
+            <div class="container my-auto">
+                <div class="copyright text-center my-auto">
+                    <span>Copyright &copy; Your Website 2020</span>
+                </div>
+            </div>
+        </footer>
+        <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+</div>
+<!-- End of Page Wrapper -->
+
+<!-- Bootstrap core JavaScript-->
+<script src="../assets/vendor/jquery/jquery.min.js"></script>
+<script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="../assets/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="../assets/js/sb-admin-2.min.js"></script>
+
+</body>
+</template>
+
+<script>
+import Sidebar from '~/components/Layout/Sidebar'
+import Topbar from '~/components/Layout/Topbar'
+
+
+export default {
+  name: 'NuxtTutorial',
+  components: {
+    Sidebar,
+    Topbar,
+  },
+}
+</script>
