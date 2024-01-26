@@ -55,7 +55,7 @@
                     <b-button v-on:click="updateProduct(item.id)" size="sm" style="margin-top: 0.2rem;" variant="warning">
                       <i class="fas fa-pen"></i>
                     </b-button>
-                    <b-button v-on:click="deleteProduct(item.id)" size="sm" style="margin-top: 0.2rem;" variant="danger">
+                    <b-button v-on:click="deleteProduct(item.id, item.name)" size="sm" style="margin-top: 0.2rem;" variant="danger">
                       <i class="fas fa-trash"></i>
                     </b-button>
                   </template>
@@ -86,7 +86,7 @@
           </div>
         </div>
       </b-modal>
-      <b-modal id="modal-update-form" centered size="lg" title="Update a new product" title-class="font-27" hide-footer
+      <b-modal id="modal-update-form" centered size="lg" title="Update a product" title-class="font-27" hide-footer
         no-close-on-backdrop>
         <div class="row">
           <div class="col-12">
@@ -100,6 +100,8 @@
 
 <script>
 import ProductForm from '~/components/Product/form'
+import Swal from 'sweetalert2'
+
 export default {
   name: 'Product',
   layout: 'base',
@@ -206,6 +208,7 @@ export default {
           this.form.price = null;
           this.form.description = null;
           this.form.stock = null;
+          Swal.fire("Success!", "New product has been created", "success");
         })
         .catch((error) => {
         });
@@ -222,6 +225,7 @@ export default {
           this.form.price = null;
           this.form.description = null;
           this.form.stock = null;
+          Swal.fire("Success!", "Product has been updated", "success");
         })
         .catch((error) => {
         });
@@ -242,13 +246,30 @@ export default {
         .catch((error) => {
         });
     },
-    deleteProduct(id) {
-      this.$store.dispatch("product/deleteProduct", { id: id })
-        .then((resp) => {
-          this.getListProduct();
-        })
-        .catch((error) => {
-        });
+    deleteProduct(id, name) {
+      Swal.fire({
+        title: "Delete product?",
+        text: "Are you sure you want to delete" + name + "?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#16A75C",
+        cancelButtonColor: "#E53935",
+        confirmButtonText: "Yes",
+        cancelButtonText: "Cancel"
+      }).then(result => {
+        if (result.value) {
+          this.$store.dispatch("product/deleteProduct", { id: id })
+            .then((resp) => {
+              Swal.fire("Success!", "Product has been deleted!", "success")
+                .then((result) => {
+                  this.getListProduct();
+                });
+            })
+            .catch((error) => {
+              Swal.fire("Error!", "Failed to delete product from your cart", "danger");
+            });
+        }
+      });
     },
     newProduct() {
       this.$bvModal.show('modal-create-form')

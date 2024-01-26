@@ -34,6 +34,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::group(['prefix' => 'cart', 'as' => '.cart'], function ($api) {
             $api->post('/', ['as' => '.store', 'uses' => 'CartController@store']);
             $api->get('/show', ['as' => '.show', 'uses' => 'CartController@show']);
+            $api->get('/{id}', ['as' => '.detail', 'uses' => 'CartController@detail']);
             $api->post('/{id}', ['as' => '.update', 'uses' => 'CartController@update']);
             $api->delete('/{id}', ['as' => '.delete', 'uses' => 'CartController@delete']);
         });

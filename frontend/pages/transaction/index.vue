@@ -73,7 +73,7 @@
             <table class="table table-bordered borderBlack mb-2">
               <thead>
                 <tr class="bg-primary">
-                  <th colspan="5" class="text-white">DIKDIK MUSFAR</th>
+                  <th colspan="5" class="text-white">{{ transaction.sale ? transaction.sale.name : '' }}</th>
                 </tr>
                 <tr class="softGreen">
                   <th width="10%" scope="col">No</th>
@@ -126,7 +126,7 @@ export default {
           {
             key: 'name',
             label: 'Customer',
-            sortable: true,
+            sortable: false,
           },
           {
             key: 'total',

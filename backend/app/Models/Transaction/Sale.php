@@ -55,7 +55,20 @@ class Sale extends Model
             } else {
                 $orderName = 'sales.id';
             }
-            return self::select('*')->where('user_id',Auth::user()->id)->orderByRaw($orderName . " " . $orderDorection . " NULLS LAST");
+            return self::select(
+                'sales.id',
+                'sales.total',
+                'users.name'
+            )
+                ->where(function ($query) use ($attributes) {
+                    if (isset($attributes['search'])) {
+                        $query->where('users.name', 'ilike', '%' . $attributes['search'] . '%')
+                            ->orWhere('sales.total', 'ilike', '%' . $attributes['search'] . '%');
+                    }
+                })
+                ->leftJoin('users', function ($join) {
+                    $join->on('users.id', '=', 'sales.user_id');
+                })->where('user_id',Auth::user()->id)->orderByRaw($orderName . " " . $orderDorection . " NULLS LAST");
         }
     }
 }

@@ -133,4 +133,26 @@ class CartController extends ApiBaseController
             return $this->sendError($e->getMessage());
         }
     }
+
+    public function detail($id)
+    {
+        try {
+            $data = Cart::select(
+                'carts.id',
+                'carts.user_id',
+                'carts.product_id',
+                'carts.amount',
+                'products.name',
+                'products.price',
+                )
+            ->leftJoin('products', function ($join) {
+                $join->on('products.id', '=', 'carts.product_id');
+            })
+            ->where('carts.id', $id)->get();
+            return $this->sendResponse($data, 'cart detail');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return $this->sendError($e->getMessage());
+        }
+    }
 }

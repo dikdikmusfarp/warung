@@ -30,7 +30,7 @@
     </div>
 
     <!-- Nav Item - Charts -->
-    <li class="nav-item">
+    <li class="nav-item" v-if="role==1">
       <nuxt-link to="/product" class="nav-link">
         <i class="fas fa-fw fa-chart-area"></i>
         <span>Product</span>
@@ -52,3 +52,16 @@
   </ul>
   <!-- End of Sidebar -->
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      role: null,
+    }
+  },
+  async created() {
+    this.role = this.$store.state.auth.user.role_id
+  },
+}
+</script>

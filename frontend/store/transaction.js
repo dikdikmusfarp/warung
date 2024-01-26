@@ -28,16 +28,16 @@ export const actions = {
       });
   },
 
-  // store({ commit, dispatch, getters }, { form } = {}) {
-  //   return this.$axios
-  //     .$post("/product", form)
-  //     .then((res) => {
-  //       return Promise.resolve(res);
-  //     })
-  //     .catch(function (error) {
-  //       return Promise.reject(error);
-  //     });
-  // },
+  store({ commit, dispatch, getters }, {  } = {}) {
+    return this.$axios
+      .$post("/transaction", )
+      .then((res) => {
+        return Promise.resolve(res);
+      })
+      .catch(function (error) {
+        return Promise.reject(error);
+      });
+  },
 
   // update({ commit, dispatch, getters }, { id, form } = {}) {
   //   return this.$axios
