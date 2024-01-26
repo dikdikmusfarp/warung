@@ -4,7 +4,7 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'frontend',
+    title: 'warung',
     htmlAttrs: {
       lang: 'en'
     },
@@ -42,7 +42,16 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/bootstrap
     'bootstrap-vue/nuxt',
+    '@nuxtjs/axios',
   ],
+
+  axios: {
+    baseURL: process.env.VUE_APP_API_URL, // Used as fallback if no runtime config is provided
+  },
+
+  env: {
+    api_url: process.env.VUE_APP_API_URL,
+  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {

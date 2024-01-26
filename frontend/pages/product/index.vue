@@ -5,7 +5,7 @@
         <div class="card">
           <div class="card-body">
             <div class="row mb-2">
-              <div class="col-xl-2">
+              <div class="col-xl-6">
                 <a class="btn btn-success btn-icon-split" v-on:click="newProduct()">
                   <span class="icon text-white-50">
                     <i class="fas fa-plus"></i>
@@ -77,6 +77,7 @@ import ProductForm from '~/components/Product/form'
 export default {
   name: 'Product',
   layout: 'base',
+  middleware: 'authentication',
   components: {
     ProductForm
   },

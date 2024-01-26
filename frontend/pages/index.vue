@@ -8,5 +8,6 @@
 export default {
   name: 'IndexPage',
   layout: 'base',
+  middleware: 'authentication',
 }
 </script>
